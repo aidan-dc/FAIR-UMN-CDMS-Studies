@@ -13,7 +13,6 @@ import glob
 import random
 # from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 # from torchsample.modules import ModuleTrainer
-#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/work/submit/aidandc/miniconda3/lib/
 
 #plt.style.use("seaborn")
 #plt.style.use("ggplot")
@@ -243,17 +242,17 @@ if __name__ == '__main__':
     torch.manual_seed(manualSeed)
     
     ################ Parameters Settings ######################
-    trn_file = '/home/submit/aidandc/SuperCDMS/pytorch/data/dnn_dataset/training.csv'
-    val_file = '/home/submit/aidandc/SuperCDMS/pytorch/data/dnn_dataset/validation.csv'
-    tst_file = '/home/submit/aidandc/SuperCDMS/pytorch/data/dnn_dataset/hos.csv'
+    trn_file = '.../.../data/dnn_dataset/training.csv'
+    val_file = '.../.../data/dnn_dataset/validation.csv'
+    tst_file = '.../.../data/dnn_dataset/hos.csv'
     if data_type=='extended':
-        trn_file = '/home/submit/aidandc/SuperCDMS/pytorch/data/extended_dataset/training_extended.csv'
-        val_file = '/home/submit/aidandc/SuperCDMS/pytorch/data/extended_dataset/validation_extended.csv'
-        tst_file = '/home/submit/aidandc/SuperCDMS/pytorch/data/extended_dataset/hos_extended.csv'
+        trn_file = '.../.../data/extended_dataset/training_extended.csv'
+        val_file = '.../.../data/extended_dataset/validation_extended.csv'
+        tst_file = '.../.../data/extended_dataset/hos_extended.csv'
     if data_type=='extended_npa':
-        trn_file = '/home/submit/aidandc/SuperCDMS/pytorch/data/extended_dataset_npa/training_extended_npa.csv'
-        val_file = '/home/submit/aidandc/SuperCDMS/pytorch/data/extended_dataset_npa/validation_extended_npa.csv'
-        tst_file = '/home/submit/aidandc/SuperCDMS/pytorch/data/extended_dataset_npa/hos_extended_npa.csv'    
+        trn_file = '.../.../data/extended_dataset_npa/training_extended_npa.csv'
+        val_file = '.../.../data/extended_dataset_npa/validation_extended_npa.csv'
+        tst_file = '.../.../data/extended_dataset_npa/hos_extended_npa.csv'    
     normalization_type = 'StandardScaler'
     gpu_id = 0
     trn_batch_size = 80#128
