@@ -40,9 +40,26 @@ the sensor. The sensors are grouped into six regions on each side of the detecto
 
 
 ### Data from the Detector
-For each interaction a set of parameters was extracted from the signals from each of the five sensors. These parameters represent information known to be sensitive to interaction location, including the relative timing between pulses in different channels, and features like the pulse shape. The relative
-amplitudes of the pulses are also relevant but due to instabilities in amplification during the test this data is not included. The parameters included for each interaction are illustrated in [Figure 4](https://) and also see our [document](https://github.com/FAIR-UMN/FAIR-UMN-CDMS/blob/main/doc/FAIR%20Document%20-%20Identifying%20Interaction%20Location%20in%20SuperCDMS%20Detectors.pdf) for details.
+For each interaction a set of parameters was extracted from the signals from each of the five sensors. These sets have been divided into two datasets which we will refer to as the **full** and **reduced** datasets.
 
+The full dataset provides 85 input parameters for each interaction. These include 1 amplitude parameter and 16 timing/shape parameters for the waveforms for each of the 5 channels. The timing parameters represent time points during the rise and fall of the waveform at which the waveform reaches a given percentage of its maximum height. The parameters are given names such as PCr40 - the 40%-point for channel C as the waveform is rising; and PFf80 - the 80%-point for channel F as the waveform is falling. These times are referenced to PAr20, an early point on the waveform for Channel A, the outer channel. Thus PAr20 is always zero, reducing the number of independent parameters to 84. The amplitude parameter is a measure of the size of each waveform, based on a comparison to a normalized waveform template. The parameters included are:
+
+- P[A,B,C,D,F]r[10,20,30,40,50,60,70,80,90,95,100]
+- P[A,B,C,D,F]f[95,90,80,40,20]
+- P[A,B,C,D,F]amp
+
+The reduced dataset represents the input parameters that have been publicly released; it contains 19 input parameters which represent information known to be sensitive to interaction location, including the relative timing between pulses in different channels, and features like the pulse shape. The parameters included in the reduced dataset for each interaction are:
+
+- P[B,C,D,F]start:
+  - The time at which the pulse rises to 20% of its peak with respect to Channel A 
+- P[A,B,C,D,F]rise:
+  - The time it takes for a pulse to rise from 20% to 50% of its peak
+- P[A,B,C,D,F]width:
+  - The width (in seconds) of the pulse at 80% of the pulse height
+- P[A,B,C,D,F]fall:
+  - The time it takes for a pulse to fall from 40% to 20% of its peak
+
+These parameters are illustrated in Fig. 4.
 
 <div align="center">
 <figure><img src="figures/r73_pulse_c_pos9_ev1253_starttime.png" width="300"><img src="figures/r73_pulse_c_pos9_ev1253_shapequants3.png" width="280"></figure>
