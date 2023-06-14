@@ -64,7 +64,7 @@ These parameters are illustrated in Figure 4.
 <div align="center">
 <figure><img src="figures/r73_pulse_c_pos9_ev1253_starttime.png" width="300"><img src="figures/r73_pulse_c_pos9_ev1253_shapequants3.png" width="280"></figure>
  <br>
-<figcaption>Figure 4: Pulses timing and shape parameters.</figcaption>
+<figcaption>Figure 4: Visualization of pulse timing and shape parameters in the reduced dataset.</figcaption>
 
 </div>
 
@@ -87,16 +87,35 @@ from 5 observed signals (pulses) and 13 different interaction locations (see our
 We use the classical linear regression techniques to obtain benchmark results for the impact location estimation problem. Along with the ordinary least-squared error (LSE) regression, we also look at regularized models using Ridge and Lasso Regression. Additionally, we use Principal Component Analysis (PCA) for dimensionality reduction and perform regression on PCA-transformed inputs.
 
 <div align="center">
-<figure><img src="figures/r73_pulse_c_pos9_ev1253_starttime.png" width="300"><img src="figures/r73_pulse_c_pos9_ev1253_shapequants3.png" width="280"></figure>
+<figure><img src="figures/image13.png" width="300"><img src="figures/image14.png" width="300"></figure>
  <br>
-<figcaption>Figure 4: Pulses timing and shape parameters.</figcaption>
+<figcaption>Figure 5: The plot on the left shows how the model-predicted value compares with the true value for training, validation, and test/held-out datasets for an ordinary LSE regression. The plot on the right compares the RMSE losses from Lasso and Ridge regression models for the three datasets with the RMSE losses from the ordinary LSE regression model. These results are from the reduced dataset.</figcaption>
+
+</div>
+
+<div align="center">
+<figure><img src="figures/image1.png" width="300"><img src="figures/image6.png" width="300"></figure>
+ <br>
+<figcaption>Figure 6: These plots compare the RMSE losses from Lasso and Ridge regression models for the training, validation, and test/held-out datasets with the RMSE losses from the ordinary LSE regression model. These results are from the full dataset without amplitude information (left) and with amplitude information (right).</figcaption>
 
 </div>
   
   
-![image13](https://github.com/aidan-dc/FAIR-UMN-CDMS-Studies/assets/83529429/54961625-679d-4c16-a359-5785a930c81d)
-![image14](https://github.com/aidan-dc/FAIR-UMN-CDMS-Studies/assets/83529429/54e24a93-90b6-464d-829f-6c0b6abe2699)
+<div align="center">
+<figure><img src="figures/image11.png" width="200"><img src="figures/image8.png" width="200"><img src="figures/image4.png" width="200"></figure>
+ <br>
+<figcaption>Figure 7: These plots compare the RMSE losses from Lasso and Ridge regression models for the training, validation, and test/held-out datasets with the RMSE losses from the ordinary LSE regression model when PCA is used to reduce the input dataset. These results are from the extended dataset (left) w/o amplitude information and (right) with amplitude information. All models are use as many PCs as needed to account for 99% of the observed variance in the training data. For the three datasets considered, this required using 13, 14, and 16 PCs respectively.</figcaption>
 
+</div>
+
+
+<div align="center">
+<figure><img src="figures/image3.png" width="600"></figure>
+ <br>
+<figcaption>Figure 8: Summary of validation (green) and test/held-out (white) RMSE Losses from different choices of dataset and regression model. The distributions of the losses are obtained from 20 different random splitting for the training and validation dataset while the HOS is kept the same for each case.</figcaption>
+
+</div>
+  
 
 
 ### Deep Neural Network Model
