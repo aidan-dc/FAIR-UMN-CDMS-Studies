@@ -156,11 +156,32 @@ For the following experiments we will introduce two new novel network architectu
 Unless otherwise stated, we will continue to use the non-linear Leaky ReLu activation function for each of our input and hidden layers with a linear function for the output layer. In contrast to the prior dense neural network studies we will not make use of dropout (for the reasons above) or batch normalization between layers. The rationalization for removing the batch normalization from our larger networks is related to our new training method which uses L1 regularization. Batch normalization attempts to normalize the weights of our network while L1 regularization imposes a loss penalty to encourage the smallest weights possible. The two methods often end up countering each other out, resulting in worse empirical results as seen with some of our networks with batch normalization layers and trained with L1 regularization. This claim is demonstrated in Figure 10 which shows the effect of batch normalization upon two separate models which are trained with our L1 regularization and early stopping procedure.
 
 <div align="center">
-<figure><img src="figures/dnn.png" width="356"></figure>
+<figure><img src="figures/bn_box_plot.png" width="356"></figure>
  <br>
-<figcaption>Figure 10: RMSE losses for two different network architectures with and without batch normalization (BN). </figcaption>
+<figcaption>Figure 10: RMSE losses for two different network architectures with and without batch normalization (BN). We observe that the presence of BN has a negative performance impact on networks trained with L1 regularization. </figcaption>
 
 </div>
+
+The Large-DNN is a fairly straightforward upscaling of the dense neural network that used used in our earlier studies, with additional hidden layers and approximately 12 times the number of trainable parameters as the original network to take advantage of the new training procedure as well as the increased size of the extended dataset. The full details of this network’s architecture are given below:
+
+<div align="center">
+<figure><img src="figures/image18.png" width="356"></figure>
+ <br>
+
+</div>
+
+Additionally we introduce a more complicated architecture, making use of a convolutional neural network (CNN). The convolutional layer works by passing a “convolutional window” over the inputs such that it applies the same weights to each entry within its window. We set the parameters of this convolutional window such that the CNN’s convolution handles each of the five channels from the detector separately. The idea here is that this convolutional layer will act as a “featurizer,” which will pick out key properties from each of the channels’ input parameters. To accomplish this we set the kernel size of our convolutional layer equal to the amount of features per channel, as dispayed in Figure 11.
+
+<div align="center">
+<figure><img src="figures/conv_window.png" width="600"></figure>
+ <br>
+<figcaption>Figure 11: Visualization of the convolutional window (blue) that is passed over the inputs from the full dataset to the CNN. </figcaption>
+
+</div>
+
+The output from this input convolutional layer is then passed onto a Gated Recurrent Unit (GRU) layer. This layer contains several feedback connections that allow it to process entire sequences of data rather than single data points. This feature of recurrent neural networks make them ideal for predicting larger trends in data, and for this reason convolutional layers are often paired with GRUs in many applications of [natural language processing](https://www.hindawi.com/journals/itees/2022/1197534/), [audio processing](https://arxiv.org/abs/1702.07787), and other higher-complexity data prediction tasks. The outputs from our GRU hidden layer are then passed through a series of dense layers before returning our output.
+
+
 
 ## Support or Contact
 
