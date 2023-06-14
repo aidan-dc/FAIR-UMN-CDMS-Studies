@@ -119,19 +119,20 @@ We use the classical linear regression techniques to obtain benchmark results fo
 
 
 ### Deep Neural Network Model
-We implement our neural network with Pytorch 1.9.0 3 . The framework of our neural network model is shown in [Figure 5](https://). It is a fully-connected network with non-linearity activation functions. In particular, in each hidden layer except the output layer, we employ a linear layer followed by the batch normalization, leaky rectified activation, and dropout. For the output layer, we simply pass the learned features through a linear layer and obtain its prediction directly. For other settings, please refer to our [document](https://github.com/FAIR-UMN/FAIR-UMN-CDMS/blob/main/doc/FAIR%20Document%20-%20Identifying%20Interaction%20Location%20in%20SuperCDMS%20Detectors.pdf).
+Our first approach to this problem is through a dense neural network implemented with Pytorch 1.9.0 3 . The framework of our neural network model is shown in Figure 9. It is a fully-connected network with non-linearity activation functions. In particular, in each hidden layer except the output layer, we employ a linear layer followed by the batch normalization, leaky rectified activation, and dropout. For the output layer, we simply pass the learned features through a linear layer and obtain its prediction directly. For other settings, please refer to our [document](https://github.com/FAIR-UMN/FAIR-UMN-CDMS/blob/main/doc/FAIR%20Document%20-%20Identifying%20Interaction%20Location%20in%20SuperCDMS%20Detectors.pdf).
 
+In our experiments, we try neural networks with {2, 5, 10} hidden layers, indicating an increasing model complexity, and we set the number of neurons per hidden layer to be 32. To avoid the issue of overfitting, we employ dropout with a drop ratio of 0.5. We use Adam as our optimizer and exploit a constant learning rate which is 0.001. We set the maximum training epochs to be 500 epochs for each model. After 500 epochs of training, the neural network model converges well and does not show any overfitting based on the performance on both training and validation sets.
 
 <div align="center">
 <figure><img src="figures/dnn.png" width="356"></figure>
  <br>
-<figcaption>Figure 5: The framework of deep neural network models.</figcaption>
+<figcaption>Figure 9: The framework of deep neural network models.</figcaption>
 
 </div>
 
 ### Results of Deep Neural Network Models
 
-We show the test performance on our test set (held-out subset) in [Table 2](https://). We can observe that simply increasing the model complexity does not boost the performance on our dataset, rather it hurts the performance. Therefore, we argue that to achieve better performance, it is worth exploring novel network architectures or training paradigms. For more experimental results, please refer to our [document](https://github.com/FAIR-UMN/FAIR-UMN-CDMS/blob/main/doc/FAIR%20Document%20-%20Identifying%20Interaction%20Location%20in%20SuperCDMS%20Detectors.pdf).
+We show the test performance on our test/held-out set in [Table 2](https://). We can observe that simply increasing the model complexity in this instance does not boost the performance on our dataset, rather it hurts the performance. Therefore, we argue that to achieve better performance, it is worth exploring novel network architectures or training paradigms. For more experimental results on these dense neural network models, please refer to our [document](https://github.com/FAIR-UMN/FAIR-UMN-CDMS/blob/main/doc/FAIR%20Document%20-%20Identifying%20Interaction%20Location%20in%20SuperCDMS%20Detectors.pdf).
 
 
 <div align="center">
@@ -140,7 +141,26 @@ We show the test performance on our test set (held-out subset) in [Table 2](http
 
 </div>
 
+### Larger Neural Network Training
+Following the results from our initial attempts with the dense neural networks, we explored a different approach to our machine learning solution using varied network architectures and a new training method. Our previous results indicated that the set-up of our initial approach suffered from increasing network complexity. This can possibly be attributed to the use of dropout to prevent overfitting. Using the same drop ratio for increasing sizes of networks can be detrimental to network performance since larger networks will take a longer time to fit to data given their increased complexity. As a result, the drop ratio must be carefully readjusted for larger networks to ensure different components don’t drop out too early.
 
+Rather than configure different drop ratios to find the optimal values for larger networks, we chose to replace dropout with a new method to combat overfitting that uses L1 regularization and early stopping. L1 regularization places a penalty on the network’s loss function proportional to the size of its weights, producing networks that should be less sensitive to changes in the input. As an additional measure we implement a procedure where we monitor the training and validation losses during training. If the training loss decreases while the validation loss increases, the training is automatically concluded and the network’s configuration is saved.
+
+In the following experiments with this new training method we use L1 regularization with a penalty value of 1.0 and an early stopping procedure which monitors the validation loss with a patience of 1. As a result of the early stopping procedure in combination with more complicated network architectures, these training usually conclude within a dozen epochs and the training process tends to be much more stochastic. This means that network performance varies more significantly between training iterations using this updated training paradigm than it would using the previous dropout procedure. We display this stochastic nature by showing the results for 50 different network trainings with randomly generated seeds, with the overall performance shown in box plots.
+
+### Larger Neural Network Architectures
+
+
+For the following experiments we will introduce two new novel network architectures which we will refer to as the Large Dense Neural Network (Large-DNN) as well as a Convolutional Neural Network (CNN). These networks have been implemented using Keras Tensorflow 2.10.0 and will be evaluated on both the original and extended datasets.
+
+Unless otherwise stated, we will continue to use the non-linear Leaky ReLu activation function for each of our input and hidden layers with a linear function for the output layer. In contrast to the prior dense neural network studies we will not make use of dropout (for the reasons above) or batch normalization between layers. The rationalization for removing the batch normalization from our larger networks is related to our new training method which uses L1 regularization. Batch normalization attempts to normalize the weights of our network while L1 regularization imposes a loss penalty to encourage the smallest weights possible. The two methods often end up countering each other out, resulting in worse empirical results as seen with some of our networks with batch normalization layers and trained with L1 regularization. This claim is demonstrated in Figure 10 which shows the effect of batch normalization upon two separate models which are trained with our L1 regularization and early stopping procedure.
+
+<div align="center">
+<figure><img src="figures/dnn.png" width="356"></figure>
+ <br>
+<figcaption>Figure 10: RMSE losses for two different network architectures with and without batch normalization (BN). </figcaption>
+
+</div>
 
 ## Support or Contact
 
