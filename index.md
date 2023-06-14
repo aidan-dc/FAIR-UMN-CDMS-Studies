@@ -179,7 +179,22 @@ Additionally we introduce a more complicated architecture, making use of a convo
 
 </div>
 
-The output from this input convolutional layer is then passed onto a Gated Recurrent Unit (GRU) layer. This layer contains several feedback connections that allow it to process entire sequences of data rather than single data points. This feature of recurrent neural networks make them ideal for predicting larger trends in data, and for this reason convolutional layers are often paired with GRUs in many applications of [natural language processing](https://www.hindawi.com/journals/itees/2022/1197534/), [audio processing](https://arxiv.org/abs/1702.07787), and other higher-complexity data prediction tasks. The outputs from our GRU hidden layer are then passed through a series of dense layers before returning our output.
+The output from this input convolutional layer is then passed onto a Gated Recurrent Unit (GRU) layer. This layer contains several feedback connections that allow it to process entire sequences of data rather than single data points. This feature of recurrent neural networks make them ideal for predicting larger trends in data, and for this reason convolutional layers are often paired with GRUs in many applications of [natural language processing](https://www.hindawi.com/journals/itees/2022/1197534/), [audio processing](https://arxiv.org/abs/1702.07787), and other higher-complexity data prediction tasks. The outputs from our GRU hidden layer are then passed through a series of dense layers before returning our output. The full details of the CNN's architecture are given below:
+
+<div align="center">
+<figure><img src="figures/image20.png" width="600"></figure>
+ <br>
+
+</div>
+
+In particular for the CNN it is worth stating the specifications of our convolutional layer, especially since they change to map the structure of each dataset: 
+
+- For the original dataset we have 15 inputs across 5 channels, leading to a kernel size of 3 and a stride of 3
+- For the extended dataset with pulse information we have 85 inputs across 5 channels, leading to a kernel size of 17 and a stride of 17
+- For the extended dataset with pulse information we have 80 inputs across 5 channels, leading to a kernel size of 16 and a stride of 16
+
+It is worth noting here that in order to preserve the function of our convolutional network with a constant number of features per channel, we exclude the 4 start parameters when applying our CNN to the original dataset.
+
 
 
 
