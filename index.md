@@ -156,9 +156,9 @@ For the following experiments we will introduce two new novel network architectu
 Unless otherwise stated, we will continue to use the non-linear Leaky ReLu activation function for each of our input and hidden layers with a linear function for the output layer. In contrast to the prior dense neural network studies we will not make use of dropout (for the reasons above) or batch normalization between layers. The rationalization for removing the batch normalization from our larger networks is related to our new training method which uses L1 regularization. Batch normalization attempts to normalize the weights of our network while L1 regularization imposes a loss penalty to encourage the smallest weights possible. The two methods often end up countering each other out, resulting in worse empirical results as seen with some of our networks with batch normalization layers and trained with L1 regularization. This claim is demonstrated in Figure 10 which shows the effect of batch normalization upon two separate models which are trained with our L1 regularization and early stopping procedure.
 
 <div align="center">
-<figure><img src="figures/bn_box_plot.png" width="356"></figure>
+<figure><img src="figures/bn_box_plot.png" width="600"></figure>
  <br>
-<figcaption>Figure 10: RMSE losses for two different network architectures with and without batch normalization (BN). We observe that the presence of BN has a negative performance impact on networks trained with L1 regularization. </figcaption>
+<figcaption>Figure 10: RMSE losses for two different network architectures with and without batch normalization (BN). We observe that the presence of BN has a negative performance impact on networks trained with L1 regularization as expec. </figcaption>
 
 </div>
 
@@ -195,8 +195,76 @@ In particular for the CNN it is worth stating the specifications of our convolut
 
 It is worth noting here that in order to preserve the function of our convolutional network with a constant number of features per channel, we exclude the 4 start parameters when applying our CNN to the original dataset.
 
+## Larger Neural Network Results
 
+Here we present the results of our larger neural networks on the original and extended datasets as well as comparing them to the results from the original dense neural network. Our results for the **reduced dataset** are displayed below:
 
+<div align="center">
+<figure><img src="figures/reduced_box_plot.png" width="600"></figure>
+ <br>
+
+</div>
+
+Here the models indicated with * are taken from the initial studies with the Dense Neural Network. Additionally we used the DNN-2 model, which had the best performance from these previous results. From our initial results we can observe that our new training method seems to be more effective at preventing overfitting, with our retrained DNN-2 model outperforming the previous iteration. Additionally, we observed that increasing network size was associated with decreased performance for networks trained with the dropout procedure, while the Large-DNN here trained with the new L1 regularization and early stopping procedure outperforms the DNN-10 model trained with Dropout despite the Large-DNN having a larger amount of trainable parameters.
+
+We also observe that the CNN has noticeably worse performance than both the large and small dense neural networks. This might be attributable to the fact that there is not enough input information for the convolutional layers to act efficiently. Additionally we have removed the pulse start parameters which contain timing information relative to each pulse. If these variables are crucial to network performance, a more complicated network architecture could reconstruct them using the remaining 15 inputs; however it is likely that the early cut off to training prevents our CNN from doing so in this instance.
+
+Additional our results from the **full dataset** are shown below:
+
+<div align="center">
+<figure><img src="figures/pa_box_plot.png" width="600"></figure>
+ <br>
+
+</div>
+
+**DESCRIPTION/COMMENTARY TO BE DONE LATER**
+
+## Symbolic Regression Studeies
+
+In addition to our neural network approaches to this regression problem, we introduce symbolic regression as an alternative machine learning method. Symbolic regression takes in a kernel of algebraic functions and our inputs and searches the resulting phase space to find the optimal combination to fit our dataset. In contrast to the training method for our neural networks, symbolic regression trains using an evolutionary method in which the process begins with a randomly constructed population of functions composed from the provided kernel of elementary functions. The model then selects the best performing function and uses that as a starting point to create the next generation of functions which are all formed from random mutations of this new starting point.
+
+As before, we will separate our data into MLS and HOS datasets for training and testing respectively. Additionally we will use RMSE as the loss metric to evaluate how well our function fits our data. Many symbolic regression libraries allow customizations to evaluate the performance of the model using a combination of accuracy and simplicity, but we will focus upon accuracy as the only metric for model evaluation.
+
+Our symbolic regression algorithm is implemented using PySR 0.11.11. The kernel of operators provided to our model are the following:
+
+- Binary Operators:
+  - Addition
+  - Multiplication
+- Unary Operators:
+  - Cosine
+  - Sine
+  - Natural Exponentiation
+  - Inversion
+
+Additionally we'll use L2DistLoss (Mean Square Error) as our loss function and use 40 iterations with a population of 15 and a population size of 33 for our evolutionary process.
+
+This evolutionary training process is much more computationally intensive than our conventional neural network training procedures, so we’ll limit ourselves to using selected input parameters from the original dataset. In order to select which variables to use, we first compute each parameters’ correlation coefficient with the interaction location. Below are each of our 19 input parameters ranked by the magnitude of their correlation coefficient with our output:
+
+**TO INSERT TABLE FROM GOOGLE DOC LATER**
+
+From here we ran our symbolic regression model on increasing numbers of inputs and observed the resulting HOS RMSE, shown below:
+
+**TO INSERT TABLE FROM GOOGLE DOC LATER**
+
+From here we can see that once the symbolic regression model is given three input variables, it already noticeably outperforms the results from the DNN-2 of our original dense neural network studies. This is a sign of valuable algorithm compression, since we’ve gone from a dense neural network with nearly 2000 training parameters and 19 input variables to an improved function of three variables and two constants.
+
+From this promising sign for the use of symbolic regression for this task, we gave it access to all 19 parameters from the dataset and obtained the following function:
+
+**I'll figure out how to do LaTeX here at a different time**
+
+Which had an HOS RMSE of 1.5120, giving the highest performance from any of our symbolic regression functions yet. It remains unclear why the final function chosen by our symbolic regression model chose to only use 4 out of the 19 available input parameters, with two possible explanations being that the network is trying to optimize functional simplicity or that additional variables served as distractions for the network. It’s not exactly obvious that the latter case is true since the four input variables chosen have a variety of correlation coefficients (as shown in the above table with *).
+
+Since the symbolic regression models were able to obtain increased performance compared to our previous neural network studies, we wished to evaluate our neural network models using the selected inputs used by our symbolic regression models and observe the resulting performance. The results are shown below:
+
+**TO INSERT TABLE FROM GOOGLE DOC LATER**
+
+<div align="center">
+<figure><img src="figures/ss_box_plot.png" width="600"></figure>
+ <br>
+
+</div>
+
+Here we can see that not only do these networks with limited input parameters outperform our previous studies on the full dataset, the networks trained on 3 parameters have the best performance we’ve seen yet; in this case the variables are those with the highest correlation coefficient to our output. These results can be argued to display the viability of symbolic regression not just for algorithm compression but also for reducing redundant input parameters. **THIS COMMENTARY NEEDS TO BE UPGRADED**
 
 ## Support or Contact
 
