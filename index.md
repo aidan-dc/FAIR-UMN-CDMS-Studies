@@ -12,32 +12,42 @@ In this project, we address the problem of accurately reconstruct the locations 
 ### Detector Information
 
 A prototype SuperCDMS germanium detector was tested at the University of Minnesota with a radioactive source mounted on a movable stage that can scan from the edge to the center of the detector. The detector is disk-shaped with sensors placed on the top and bottom surfaces to detect the particles emitted by the radioactive source, which is shown in [Figure 1](https://).
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/detector_photo.jpg" width="456"></figure>
 <br>
 <figcaption>Figure 1: A SuperCDMS dark matter detector.</figcaption>
 
 </div>
+<br>
 
+</br>
 
 The sensors measure phonons (quantized vibrations of the crystal lattice) that are produced by the interacting particle and travel from the interaction location to the sensors. The number of phonons and the relative time of arrival at a particular sensor depends on the positions of the interaction and
 the sensor. The sensors are grouped into six regions on each side of the detector and each of these “channels” produces a waveform for every interaction. For the test performed at Minnesota, five channels on one side of the detector were used ([Figure 2](https://)). The movable radioactive source was used to produce interactions at thirteen different locations on the detector along a radial path from the central axis to close to the the detector’s outer edge ([Figure 3](https://)).
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/detector_3d.png" width="300"><img src="figures/waveforms_example_12.55mm.png" width="300"></figure>
  <br>
 <figcaption>Figure 2: Pulses from an interaction in a SuperCDMS detector.</figcaption>
 
 </div>
+<br>
 
+</br>
 <br>
 <div align="center">
 <figure><img src="figures/run73_source_positions.png" width="356"></figure>
 <br>
 <figcaption>Figure 3: Interaction locations included in the dataset.</figcaption>
 </div>
+<br>
 
+</br>
 
 ### Data from the Detector
 For each interaction a set of parameters was extracted from the signals from each of the five sensors. These sets have been divided into two datasets which we will refer to as the **full** and **reduced** datasets.
@@ -60,14 +70,18 @@ The reduced dataset represents the input parameters that have been publicly rele
   - The time it takes for a pulse to fall from 40% to 20% of its peak
 
 These parameters are illustrated in Figure 4.
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/r73_pulse_c_pos9_ev1253_starttime.png" width="300"><img src="figures/r73_pulse_c_pos9_ev1253_shapequants3.png" width="280"></figure>
  <br>
 <figcaption>Figure 4: Visualization of pulse timing and shape parameters in the reduced dataset.</figcaption>
 
 </div>
+<br>
 
+</br>
 The reduced dataset does not include amplitude parameters. Although the amplitudes are relevant to position reconstruction (particularly the relative amplitudes), they were omitted for technical reasons. During data taking it became clear that the gains of the sensors varied significantly from one data period to the next, and since each period represents a different source position, this introduces a bias in the dataset. For the full dataset, an attempt was made to adjust the amplitudes to correct for the variations with time. For this reason any studies involving the full dataset will be repeated both with and without pulse amplitude information.
 
 
@@ -76,30 +90,42 @@ The reduced dataset does not include amplitude parameters. Although the amplitud
 ### Dataset for Machine Learning
 We need to a large number of (x,y) paris to train our machine learning model. In our current experimental data, we have 19 and 85 informative features for the reduced and full datasets respectively, extracted
 from 5 observed signals (pulses) and 13 different interaction locations (see our [document](https://github.com/FAIR-UMN/FAIR-UMN-CDMS/blob/main/doc/FAIR%20Document%20-%20Identifying%20Interaction%20Location%20in%20SuperCDMS%20Detectors.pdf) for details). In total, we obtain 7151 (x, y) pairs, of which the details are shown in [Table 1](https://). We further split our dateset to *Model-learning subset (MLS)* and *Held-out subset (HOS)*, of which the detailed definitions are provided in our [document](https://github.com/FAIR-UMN/FAIR-UMN-CDMS/blob/main/doc/FAIR%20Document%20-%20Identifying%20Interaction%20Location%20in%20SuperCDMS%20Detectors.pdf).
+<br>
 
+</br>
 <div align="center">
-<figure><img src="figures/dnn_dataset.png" width="456"></figure>
+<figure><img src="figures/table1.png" width="456"></figure>
  <br>
+ <figcaption>Table 1: Dataset for MLS and HOS. </figcaption>
 </div>
+<br>
+
+</br>
 
 ### Classical Regression Techniques
 
 We use the classical linear regression techniques to obtain benchmark results for the impact location estimation problem. Along with the ordinary least-squared error (LSE) regression, we also look at regularized models using Ridge and Lasso Regression. Additionally, we use Principal Component Analysis (PCA) for dimensionality reduction and perform regression on PCA-transformed inputs.
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/image13.png" width="300"><img src="figures/image14.png" width="300"></figure>
  <br>
 <figcaption>Figure 5: The plot on the left shows how the model-predicted value compares with the true value for training, validation, and test/held-out datasets for an ordinary LSE regression. The plot on the right compares the RMSE losses from Lasso and Ridge regression models for the three datasets with the RMSE losses from the ordinary LSE regression model. These results are from the reduced dataset.</figcaption>
 
 </div>
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/image1.png" width="300"><img src="figures/image6.png" width="300"></figure>
  <br>
 <figcaption>Figure 6: These plots compare the RMSE losses from Lasso and Ridge regression models for the training, validation, and test/held-out datasets with the RMSE losses from the ordinary LSE regression model. These results are from the full dataset without amplitude information (left) and with amplitude information (right).</figcaption>
 
 </div>
-  
+  <br>
+
+</br>
   
 <div align="center">
 <figure><img src="figures/image11.png" width="200"><img src="figures/image8.png" width="200"><img src="figures/image4.png" width="200"></figure>
@@ -108,38 +134,53 @@ We use the classical linear regression techniques to obtain benchmark results fo
 
 </div>
 
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/image3.png" width="600"></figure>
  <br>
 <figcaption>Figure 8: Summary of validation (green) and test/held-out (white) RMSE Losses from different choices of dataset and regression model. The distributions of the losses are obtained from 20 different random splitting for the training and validation dataset while the HOS is kept the same for each case.</figcaption>
 
 </div>
-  
+  <br>
+
+</br>
 
 
 ### Deep Neural Network Model
 Our first approach to this problem is through a dense neural network implemented with Pytorch 1.9.0 3 . The framework of our neural network model is shown in Figure 9. It is a fully-connected network with non-linearity activation functions. In particular, in each hidden layer except the output layer, we employ a linear layer followed by the batch normalization, leaky rectified activation, and dropout. For the output layer, we simply pass the learned features through a linear layer and obtain its prediction directly. For other settings, please refer to our [document](https://github.com/FAIR-UMN/FAIR-UMN-CDMS/blob/main/doc/FAIR%20Document%20-%20Identifying%20Interaction%20Location%20in%20SuperCDMS%20Detectors.pdf).
 
 In our experiments, we try neural networks with {2, 5, 10} hidden layers, indicating an increasing model complexity, and we set the number of neurons per hidden layer to be 32. To avoid the issue of overfitting, we employ dropout with a drop ratio of 0.5. We use Adam as our optimizer and exploit a constant learning rate which is 0.001. We set the maximum training epochs to be 500 epochs for each model. After 500 epochs of training, the neural network model converges well and does not show any overfitting based on the performance on both training and validation sets.
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/dnn.png" width="356"></figure>
  <br>
 <figcaption>Figure 9: The framework of deep neural network models.</figcaption>
 
 </div>
+<br>
+
+</br>
 
 ### Results of Deep Neural Network Models
 
 We show the test performance on our test/held-out set in [Table 2](https://). We can observe that simply increasing the model complexity in this instance does not boost the performance on our dataset, rather it hurts the performance. Therefore, we argue that to achieve better performance, it is worth exploring novel network architectures or training paradigms. For more experimental results on these dense neural network models, please refer to our [document](https://github.com/FAIR-UMN/FAIR-UMN-CDMS/blob/main/doc/FAIR%20Document%20-%20Identifying%20Interaction%20Location%20in%20SuperCDMS%20Detectors.pdf).
 
+<br>
 
+</br>
 <div align="center">
-<figure><img src="figures/dnn_results.png" width="456"></figure>
+<figure><img src="figures/table2.png" width="456"></figure>
  <br>
-
+<figcaption>Table 2: The performance on training, validation, and test sets. The X in the DNN-X indicates the number of hidden layers.
+</figcaption>
 </div>
+<br>
+
+</br>
 
 ### Larger Neural Network Training
 Following the results from our initial attempts with the dense neural networks, we explored a different approach to our machine learning solution using varied network architectures and a new training method. Our previous results indicated that the set-up of our initial approach suffered from increasing network complexity. This can possibly be attributed to the use of dropout to prevent overfitting. Using the same drop ratio for increasing sizes of networks can be detrimental to network performance since larger networks will take a longer time to fit to data given their increased complexity. As a result, the drop ratio must be carefully readjusted for larger networks to ensure different components don’t drop out too early.
@@ -154,39 +195,55 @@ In the following experiments with this new training method we use L1 regularizat
 For the following experiments we will introduce two new novel network architectures which we will refer to as the Large Dense Neural Network (Large-DNN) as well as a Convolutional Neural Network (CNN). These networks have been implemented using Keras Tensorflow 2.10.0 and will be evaluated on both the original and extended datasets.
 
 Unless otherwise stated, we will continue to use the non-linear Leaky ReLu activation function for each of our input and hidden layers with a linear function for the output layer. In contrast to the prior dense neural network studies we will not make use of dropout (for the reasons above) or batch normalization between layers. The rationalization for removing the batch normalization from our larger networks is related to our new training method which uses L1 regularization. Batch normalization attempts to normalize the weights of our network while L1 regularization imposes a loss penalty to encourage the smallest weights possible. The two methods often end up countering each other out, resulting in worse empirical results as seen with some of our networks with batch normalization layers and trained with L1 regularization. This claim is demonstrated in Figure 10 which shows the effect of batch normalization upon two separate models which are trained with our L1 regularization and early stopping procedure.
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/bn_box_plot.png" width="600"></figure>
  <br>
-<figcaption>Figure 10: RMSE losses for two different network architectures with and without batch normalization (BN). We observe that the presence of BN has a negative performance impact on networks trained with L1 regularization as expec. </figcaption>
+<figcaption>Figure 10: RMSE losses for two different network architectures with and without batch normalization (BN). We observe that the presence of BN has a negative performance impact on networks trained with L1 regularization as expected. </figcaption>
 
 </div>
+<br>
 
+</br>
 The Large-DNN is a fairly straightforward upscaling of the dense neural network that used used in our earlier studies, with additional hidden layers and approximately 12 times the number of trainable parameters as the original network to take advantage of the new training procedure as well as the increased size of the extended dataset. The full details of this network’s architecture are given below:
+<br>
 
+</br>
 <div align="center">
-<figure><img src="figures/image18.png" width="356"></figure>
+<figure><img src="figures/table3.png" width="600"></figure>
  <br>
-
+<figcaption>Figure 11: Architecture of Large Dense Neural Network. Parameter count and output shapes are calculated using the reduced dataset. </figcaption>
 </div>
+<br>
 
-Additionally we introduce a more complicated architecture, making use of a convolutional neural network (CNN). The convolutional layer works by passing a “convolutional window” over the inputs such that it applies the same weights to each entry within its window. We set the parameters of this convolutional window such that the CNN’s convolution handles each of the five channels from the detector separately. The idea here is that this convolutional layer will act as a “featurizer,” which will pick out key properties from each of the channels’ input parameters. To accomplish this we set the kernel size of our convolutional layer equal to the amount of features per channel, as dispayed in Figure 11.
+</br>
+Additionally we introduce a more complicated architecture, making use of a convolutional neural network (CNN). The convolutional layer works by passing a “convolutional window” over the inputs such that it applies the same weights to each entry within its window. We set the parameters of this convolutional window such that the CNN’s convolution handles each of the five channels from the detector separately. The idea here is that this convolutional layer will act as a “featurizer,” which will pick out key properties from each of the channels’ input parameters. To accomplish this we set the kernel size of our convolutional layer equal to the amount of features per channel, as dispayed in Figure 12.
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/conv_window.png" width="600"></figure>
  <br>
-<figcaption>Figure 11: Visualization of the convolutional window (blue) that is passed over the inputs from the full dataset to the CNN. </figcaption>
+<figcaption>Figure 12: Visualization of the convolutional window (blue) that is passed over the inputs from the full dataset to the CNN. </figcaption>
 
 </div>
+<br>
 
+</br>
 The output from this input convolutional layer is then passed onto a Gated Recurrent Unit (GRU) layer. This layer contains several feedback connections that allow it to process entire sequences of data rather than single data points. This feature of recurrent neural networks make them ideal for predicting larger trends in data, and for this reason convolutional layers are often paired with GRUs in many applications of [natural language processing](https://www.hindawi.com/journals/itees/2022/1197534/), [audio processing](https://arxiv.org/abs/1702.07787), and other higher-complexity data prediction tasks. The outputs from our GRU hidden layer are then passed through a series of dense layers before returning our output. The full details of the CNN's architecture are given below:
+<br>
 
+</br>
 <div align="center">
-<figure><img src="figures/image20.png" width="600"></figure>
+<figure><img src="figures/table4.png" width="600"></figure>
  <br>
-
+<figcaption>Figure 13: Architecture of Convolutional Neural Network. Parameter count and output shapes are calculated using the reduced dataset.</figcaption>
 </div>
+<br>
 
+</br>
 In particular for the CNN it is worth stating the specifications of our convolutional layer, especially since they change to map the structure of each dataset: 
 
 - For the original dataset we have 15 inputs across 5 channels, leading to a kernel size of 3 and a stride of 3
