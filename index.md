@@ -255,24 +255,54 @@ It is worth noting here that in order to preserve the function of our convolutio
 ## Larger Neural Network Results
 
 Here we present the results of our larger neural networks on the original and extended datasets as well as comparing them to the results from the original dense neural network. Our results for the **reduced dataset** are displayed below:
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/reduced_box_plot.png" width="600"></figure>
  <br>
-
+<figcaption>Figure 14: Performance from selected models on the reduced data set. Models
+marked with * indicate architectures and training procedures from previous chapter. Results
+are taken from 50 training procedures with a random seed generation. </figcaption>
 </div>
+<br>
 
+</br>
+<div align="center">
+<figure><img src="figures/table5.png" width="600"></figure>
+ <br>
+<figcaption>Table 3: Best HOS performance from selected models on the reduced data set. </figcaption>
+</div>
+<br>
+
+</br>
 Here the models indicated with * are taken from the initial studies with the Dense Neural Network. Additionally we used the DNN-2 model, which had the best performance from these previous results. From our initial results we can observe that our new training method seems to be more effective at preventing overfitting, with our retrained DNN-2 model outperforming the previous iteration. Additionally, we observed that increasing network size was associated with decreased performance for networks trained with the dropout procedure, while the Large-DNN here trained with the new L1 regularization and early stopping procedure outperforms the DNN-10 model trained with Dropout despite the Large-DNN having a larger amount of trainable parameters.
 
 We also observe that the CNN has noticeably worse performance than both the large and small dense neural networks. This might be attributable to the fact that there is not enough input information for the convolutional layers to act efficiently. Additionally we have removed the pulse start parameters which contain timing information relative to each pulse. If these variables are crucial to network performance, a more complicated network architecture could reconstruct them using the remaining 15 inputs; however it is likely that the early cut off to training prevents our CNN from doing so in this instance.
 
 Additional our results from the **full dataset** are shown below:
 
+<br>
+
+</br>
 <div align="center">
 <figure><img src="figures/pa_box_plot.png" width="600"></figure>
  <br>
-
+<figcaption>Figure 15: Best HOS performance from selected models on the full data set both with and
+without pulse amplitude inputs. All models here trained with L1 regularization and early
+stopping. Results are taken from 50 training procedures with a random seed generation. </figcaption>
 </div>
+<br>
+
+</br>
+<div align="center">
+<figure><img src="figures/table6.png" width="600"></figure>
+ <br>
+<figcaption>Table 4: Best HOS performance from selected models on the full data set. </figcaption>
+</div>
+<br>
+
+</br>
 
 **DESCRIPTION/COMMENTARY TO BE DONE LATER**
 
