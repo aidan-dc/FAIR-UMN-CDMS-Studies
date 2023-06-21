@@ -296,7 +296,7 @@ stopping. Results are taken from 50 training procedures with a random seed gener
 
 </br>
 <div align="center">
-<figure><img src="figures/table6.png" width="600"></figure>
+<figure><img src="figures/table6.png" width="450"></figure>
  <br>
 <figcaption>Table 4: Best HOS performance from selected models on the full data set. </figcaption>
 </div>
@@ -323,33 +323,67 @@ Our symbolic regression algorithm is implemented using PySR 0.11.11. The kernel 
   - Natural Exponentiation
   - Inversion
 
-Additionally we'll use L2DistLoss (Mean Square Error) as our loss function and use 40 iterations with a population of 15 and a population size of 33 for our evolutionary process.
+Additionally we'll use L2DistLoss (Mean Square Error) as our loss function and use 50 iterations with a population of 15 and a population size of 33 for our evolutionary process.
 
 This evolutionary training process is much more computationally intensive than our conventional neural network training procedures, so we’ll limit ourselves to using selected input parameters from the original dataset. In order to select which variables to use, we first compute each parameters’ correlation coefficient with the interaction location. Below are each of our 19 input parameters ranked by the magnitude of their correlation coefficient with our output:
 
-**TO INSERT TABLE FROM GOOGLE DOC LATER**
+<br>
+
+</br>
+<div align="center">
+<figure><img src="figures/table7.png" width="600"></figure>
+ <br>
+<figcaption>Table 5: Reduced data input variables and linear correlation with output locations.</figcaption>
+</div>
+<br>
+
+</br>
 
 From here we ran our symbolic regression model on increasing numbers of inputs and observed the resulting HOS RMSE, shown below:
 
-**TO INSERT TABLE FROM GOOGLE DOC LATER**
+<br>
+
+</br>
+<div align="center">
+<figure><img src="figures/table8.png" width="600"></figure>
+ <br>
+<figcaption>Table 6: Performance of symbolic regression functions with different input parameters.</figcaption>
+</div>
+<br>
+
+</br>
 
 From here we can see that once the symbolic regression model is given three input variables, it already noticeably outperforms the results from the DNN-2 of our original dense neural network studies. This is a sign of valuable algorithm compression, since we’ve gone from a dense neural network with nearly 2000 training parameters and 19 input variables to an improved function of three variables and two constants.
 
 From this promising sign for the use of symbolic regression for this task, we gave it access to all 19 parameters from the dataset and obtained the following function:
 
-**I'll figure out how to do LaTeX here at a different time**
+$$f(\vec{x})=(\text{PCstart}+1.6054103)\cdot(\sin(\cos(\text{PDstart}))-14.085981)+\sin(\text{PBstart}+\text{PFwidth})-0.2991746+\text{PBstart}$$
 
 Which had an HOS RMSE of 1.5120, giving the highest performance from any of our symbolic regression functions yet. It remains unclear why the final function chosen by our symbolic regression model chose to only use 4 out of the 19 available input parameters, with two possible explanations being that the network is trying to optimize functional simplicity or that additional variables served as distractions for the network. It’s not exactly obvious that the latter case is true since the four input variables chosen have a variety of correlation coefficients (as shown in the above table with *).
 
 Since the symbolic regression models were able to obtain increased performance compared to our previous neural network studies, we wished to evaluate our neural network models using the selected inputs used by our symbolic regression models and observe the resulting performance. The results are shown below:
 
-**TO INSERT TABLE FROM GOOGLE DOC LATER**
+<br>
 
+</br>
 <div align="center">
 <figure><img src="figures/ss_box_plot.png" width="600"></figure>
  <br>
-
+<figcaption>Figure 16: Best HOS performance from selected models on the full data set both with and
+without pulse amplitude inputs. All models here trained with L1 regularization and early
+stopping. Results are taken from 50 training procedures with a random seed generation. </figcaption>
 </div>
+<br>
+
+</br>
+<div align="center">
+<figure><img src="figures/table6.png" width="450"></figure>
+ <br>
+<figcaption>Table 7: Best HOS performance from selected models on subsets from the reduced data. </figcaption>
+</div>
+<br>
+
+</br>
 
 Here we can see that not only do these networks with limited input parameters outperform our previous studies on the full dataset, the networks trained on 3 parameters have the best performance we’ve seen yet; in this case the variables are those with the highest correlation coefficient to our output. These results can be argued to display the viability of symbolic regression not just for algorithm compression but also for reducing redundant input parameters. **THIS COMMENTARY NEEDS TO BE UPGRADED**
 
